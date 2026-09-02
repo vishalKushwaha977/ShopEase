@@ -1,10 +1,9 @@
 package com.shopease.product_service.service;
 
+
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import com.shopease.product_service.dto.ProductRequestDTO;
 import com.shopease.product_service.dto.ProductResponseDTO;
 import com.shopease.product_service.entity.Product;
@@ -19,13 +18,12 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO request) {
         Product product1 = new Product();
         product1.setName(request.getName());
         if (productRepository.findBySku(request.getSku()).isPresent()) {
-           throw new RuntimeException("SKU already exists: " + request.getSku());
+           throw new RuntimeException("Product with SKU " + request.getSku() + " already exists");
         }
         product1.setSku(request.getSku());
         product1.setDescription(request.getDescription());
