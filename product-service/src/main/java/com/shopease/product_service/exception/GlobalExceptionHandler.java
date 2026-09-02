@@ -68,11 +68,17 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+    
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleProductAlreadyExistsException(ProductAlreadyExistsException ex) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("message", ex.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(ex.getMessage());
+                .body(response);
     }
 }
